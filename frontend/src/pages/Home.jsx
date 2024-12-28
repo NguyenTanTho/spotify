@@ -25,16 +25,56 @@ const Home = () => {
 
       <div className="mb-4">
         <h1 className="my-5 font-bold text-2xl">Today's biggest hits</h1>
-        <div className="flex overflow-auto">
-          {songs.map((e, i) => (
-            <SongItem
-              key={i}
-              image={e.thumbnail.url}
-              name={e.title}
-              desc={e.description}
-              id={e._id}
-            />
-          ))}
+        <div className="overflow-x-auto relative">
+          <div className="flex animate-scroll">
+            {/* Hiển thị các phần tử */}
+            {songs.map((e, i) => (
+              <SongItem
+                key={i}
+                image={e.thumbnail.url}
+                name={e.title}
+                desc={e.description}
+                id={e._id}
+              />
+            ))}
+            {/* Sao chép lại các phần tử để nối đầu và cuối */}
+            {songs.map((e, i) => (
+              <SongItem
+                key={i + songs.length}
+                image={e.thumbnail.url}
+                name={e.title}
+                desc={e.description}
+                id={e._id}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="mb-4">
+        <h1 className="my-5 font-bold text-2xl">Recommended Station</h1>
+        <div className="overflow-x-auto relative">
+          <div className="flex animate-scroll">
+            {/* Hiển thị các phần tử */}
+            {songs.map((e, i) => (
+              <SongItem
+                key={i}
+                image={e.thumbnail.url}
+                name={e.title}
+                desc={e.description}
+                id={e._id}
+              />
+            ))}
+            {/* Sao chép lại các phần tử để nối đầu và cuối */}
+            {songs.map((e, i) => (
+              <SongItem
+                key={i + songs.length}
+                image={e.thumbnail.url}
+                name={e.title}
+                desc={e.description}
+                id={e._id}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Layout>

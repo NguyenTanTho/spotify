@@ -29,3 +29,20 @@ body {
 *::-webkit-scrollbar-thumb {
   background-color: #2e2d2b;
 }
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Cuộn một nửa phần tử (vì có 2 bộ phần tử) */
+  }
+}
+
+.overflow-x-auto {
+  overflow-x: auto; /* Hiển thị thanh cuộn ngang */
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll 30s linear infinite; /* Điều chỉnh thời gian cuộn */
+}
