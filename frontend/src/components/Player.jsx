@@ -7,6 +7,8 @@ import {
   FaMicrophone,
   FaListAlt,
   FaVolumeUp,
+  FaVolumeMute,
+  FaVolumeDown,
   FaExpandAlt,
 } from "react-icons/fa";
 
@@ -46,8 +48,8 @@ const Player = () => {
 
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isRepeating, setIsRepeating] = useState(false); // Trạng thái lặp
-  const [isRandom, setIsRandom] = useState(false); // Trạng thái trộn
+  const [isRepeating, setIsRepeating] = useState(false);
+  const [isRandom, setIsRandom] = useState(false);
 
   const toggleRepeat = () => {
     setIsRepeating(!isRepeating);
@@ -85,6 +87,25 @@ const Player = () => {
     setProgress(newTime);
   };
 
+  const formatTime = (time) => {
+    if (isNaN(time)) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  // Quy định các biểu tượng âm lượng tùy theo mức âm lượng
+  let volumeIcon;
+  if (volume === "0") {
+    volumeIcon = <FaVolumeMute className="text-xl sm:text-2xl" />;
+  } else if (volume <= 0.3) {
+    volumeIcon = <FaVolumeDown className="text-xl sm:text-2xl" />;
+  } else if (volume <= 0.7) {
+    volumeIcon = <FaVolumeUp className="text-xl sm:text-2xl" />;
+  } else {
+    volumeIcon = <FaVolumeUp className="text-xl sm:text-2xl" />;
+  }
+
   return (
     <div className="fixed bottom-0 left-0 right-0">
       {song && (
@@ -118,21 +139,10 @@ const Player = () => {
               </>
             )}
 
-            <div className="w-full flex items-center font-thin text-green-400 hidden lg:flex">
-              <input
-                type="range"
-                min={"0"}
-                max={"100"}
-                className="progress-bar w-[120px] sm:w-[200px] md:w-[300px]"
-                value={(progress / duration) * 100}
-                onChange={handleProgressChange}
-              />
-            </div>
-
             <div className="flex justify-center items-center gap-4">
               <span
                 className={`cursor-pointer ${
-                  isRandom ? "text-blue-500" : "text-white"
+                  isRandom ? "text-blue-500" : "text-gray-400"
                 }`}
                 onClick={toggleRandom}
               >
@@ -152,23 +162,31 @@ const Player = () => {
               </span>
               <span
                 className={`cursor-pointer ${
-                  isRepeating ? "text-blue-500" : "text-white"
+                  isRepeating ? "text-blue-500" : "text-gray-400"
                 }`}
                 onClick={toggleRepeat}
               >
                 <FaRepeat />
               </span>
             </div>
+            <div className="w-full flex items-center font-thin text-white hidden lg:flex">
+  <span className="text-sm w-[50px] text-center">{formatTime(progress)}</span> {/* Cố định chiều rộng cho thời gian */}
+  <input
+    type="range"
+    min={"0"}
+    max={"100"}
+    className="progress-bar w-[120px] sm:w-[200px] md:w-[500px] h-1"
+    value={(progress / duration) * 100}
+    onChange={handleProgressChange}
+  />
+  <span className="text-sm w-[50px] text-center">{formatTime(duration)}</span> {/* Cố định chiều rộng cho thời gian */}
+</div>
           </div>
 
-          {/* Ẩn FaVolumeUp và thanh trượt âm lượng khi màn hình dưới 779px */}
           <div className="flex items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8">
-          <FaMicrophone className="text-xl sm:text-2xl hidden sm:block" />
+            <FaMicrophone className="text-xl sm:text-2xl hidden sm:block" />
             <FaListAlt className="text-xl sm:text-2xl" />
-            <div className="hidden lg:block">
-              <FaVolumeUp className="text-xl sm:text-2xl" />
-            </div>
-            {/* Ẩn thanh trượt âm lượng khi màn hình dưới 779px */}
+            <div className="hidden lg:block">{volumeIcon}</div>
             <input
               type="range"
               className="w-16 sm:w-24 md:w-32 hidden lg:block"
