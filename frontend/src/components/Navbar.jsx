@@ -6,6 +6,11 @@ import { UserData } from "../context/User";
 const Navbar = () => {
   const navigate = useNavigate();
   const { logoutUser } = UserData();
+
+  const navigateToPaymentPage = () => {
+    navigate("/payment"); 
+  };
+
   return (
     <>
       <div className="w-full flex justify-between items-center font-semibold">
@@ -24,7 +29,10 @@ const Navbar = () => {
           />
         </div>
         <div className="flex items-center gap-4">
-          <p className="bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block cursor-pointer">
+          <p
+            className="bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block cursor-pointer"
+            onClick={navigateToPaymentPage}
+          >
             Explore Premium
           </p>
           <p className="bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block cursor-pointer">
